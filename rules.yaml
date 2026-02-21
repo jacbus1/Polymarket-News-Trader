@@ -1,0 +1,61 @@
+# Trading rules for polymarket-news-trader
+# Each rule maps news keywords to a Polymarket market+outcome pair.
+rules:
+  - name: "us-election-republican-win"
+    keywords:
+      - "Republican"
+      - "Trump"
+      - "GOP wins"
+      - "presidential election"
+    market_tag: "US presidential election Republican win"
+    outcome: "YES"
+    side: "BUY"
+    size: 25.0
+    order_type: "market"
+
+  - name: "fed-rate-hike"
+    keywords:
+      - "rate hike"
+      - "Federal Reserve raises"
+      - "interest rate increase"
+      - "FOMC hike"
+    market_tag: "Fed interest rate hike"
+    outcome: "YES"
+    side: "BUY"
+    size: 15.0
+    order_type: "limit"
+    limit_price: 0.60
+
+  - name: "world-cup-brazil-win"
+    keywords:
+      - "Brazil wins"
+      - "Brazil World Cup"
+      - "Seleção champion"
+    market_tag: "Brazil wins FIFA World Cup"
+    outcome: "YES"
+    side: "BUY"
+    size: 10.0
+    order_type: "market"
+
+  - name: "crypto-etf-approved"
+    keywords:
+      - "Bitcoin ETF approved"
+      - "SEC approves crypto ETF"
+      - "spot ETF approval"
+    market_tag: "Bitcoin spot ETF approved"
+    outcome: "YES"
+    side: "BUY"
+    size: 20.0
+    order_type: "limit"
+    limit_price: 0.70
+
+  - name: "ukraine-ceasefire"
+    keywords:
+      - "Ukraine ceasefire"
+      - "Russia Ukraine peace"
+      - "ceasefire agreement Ukraine"
+    market_tag: "Ukraine Russia ceasefire 2024"
+    outcome: "YES"
+    side: "BUY"
+    size: 10.0
+    order_type: "market"
