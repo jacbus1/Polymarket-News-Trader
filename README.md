@@ -72,6 +72,19 @@ DRY_RUN=1
 EOF
 ```
 
+## Required Files Before Running
+
+To run this project successfully, make sure these files exist:
+
+- Required: `rules.yaml`
+  - Create it with: `cp rules.example.yaml rules.yaml`
+- Optional (recommended): `.env`
+  - Needed for live trading credentials and runtime options
+  - If missing, the app can still run in dry-run/backtest mode with defaults
+- Not required: `.DS_Store`
+  - This is a macOS metadata file, not a project config file
+  - Do not create it manually
+
 ## Usage
 
 ### Backtest
