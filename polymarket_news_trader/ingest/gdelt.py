@@ -42,7 +42,7 @@ def fetch_gdelt(query: str, mode: str = "artlist", max_records: int = 25, timesp
             NewsItem(
                 id=url,
                 title=title,
-                summary=art.get("seendate", ""),
+                summary="",
                 url=url,
                 published=None,
                 source="gdelt",
