@@ -1,0 +1,37 @@
+# Candidate RSS/Atom feeds (official/public where possible)
+# Format: category -> list of RSS/Atom URLs
+feeds:
+  Trending:
+    - http://news.bbc.co.uk/rss/newsonline_uk_edition/latest_published_stories/rss.xml
+    - https://www.theguardian.com/world/rss
+
+  Politics:
+    - https://www.theguardian.com/politics/rss
+    - http://news.bbc.co.uk/rss/newsonline_uk_edition/latest_published_stories/rss.xml
+
+  World:
+    - https://www.theguardian.com/world/rss
+    - http://news.bbc.co.uk/rss/newsonline_uk_edition/latest_published_stories/rss.xml
+
+  Finance:
+    - https://www.theguardian.com/business/rss
+    - https://www.sec.gov/news/pressreleases.rss
+    - https://www.bis.org/doclist/all_pressrels.rss
+
+  Earnings:
+    # EDGAR: latest 10-K filings (Atom)
+    - https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&company=&count=40&dateb=&output=atom&owner=include&start=0&type=10-k
+
+  Culture:
+    - https://www.theguardian.com/culture/rss
+
+  Macro:
+    - https://www.federalreserve.gov/feeds/press_all.xml
+    - https://www.federalreserve.gov/feeds/press_monetary.xml
+    - https://www.federalreserve.gov/feeds/speeches_and_testimony.xml
+    - https://www.bis.org/doclist/rss_all_categories.rss
+
+# Notes
+# - Guardian provides RSS by appending /rss to section index pages.
+# - BBC provides a stable “last 50 stories” RSS feed.
+# - SEC/Fed/BIS feeds are official and useful for finance/earnings catalysts.

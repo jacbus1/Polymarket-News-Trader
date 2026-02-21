@@ -1,0 +1,27 @@
+[project]
+name = "polymarket-news-trader"
+version = "0.1.0"
+description = "News-triggered Polymarket trading bot using the CLOB API"
+requires-python = ">=3.9"
+readme = "README.md"
+dependencies = [
+  "py-clob-client>=0.24.0",
+  "requests>=2.31.0",
+  "feedparser>=6.0.11",
+  "python-dotenv>=1.0.1",
+  "PyYAML>=6.0.1",
+  "websockets>=12.0",
+]
+
+[project.scripts]
+polymarket-news-trader = "polymarket_news_trader.main:cli"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

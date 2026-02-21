@@ -1,0 +1,163 @@
+# Auto-generated rules.yaml (free RSS + GDELT)
+# 30-minute backtest window; low-probability target via max_price <= 0.15
+
+risk:
+  bankroll_usdc: 200
+  min_trade_usdc: 10
+  max_trade_usdc: 20
+  default_trade_usdc: 15
+  max_daily_usdc: 100
+  max_trades_per_day: 10
+  max_days_to_resolution: 15
+
+feeds:
+  Trending:
+    - http://news.bbc.co.uk/rss/newsonline_uk_edition/latest_published_stories/rss.xml
+    - https://www.theguardian.com/world/rss
+  Politics:
+    - https://www.theguardian.com/politics/rss
+    - http://news.bbc.co.uk/rss/newsonline_uk_edition/latest_published_stories/rss.xml
+  World:
+    - https://www.theguardian.com/world/rss
+    - http://news.bbc.co.uk/rss/newsonline_uk_edition/latest_published_stories/rss.xml
+  Finance:
+    - https://www.theguardian.com/business/rss
+    - https://www.sec.gov/news/pressreleases.rss
+    - https://www.bis.org/doclist/all_pressrels.rss
+  Earnings:
+    - https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&company=&count=40&dateb=&output=atom&owner=include&start=0&type=10-k
+  Culture:
+    - https://www.theguardian.com/culture/rss
+  Macro:
+    - https://www.federalreserve.gov/feeds/press_all.xml
+    - https://www.federalreserve.gov/feeds/press_monetary.xml
+    - https://www.federalreserve.gov/feeds/speeches_and_testimony.xml
+    - https://www.bis.org/doclist/rss_all_categories.rss
+
+# Free global news index
+# timespan: 15min | 30min | 1h | 3h | 6h | 12h | 24h
+# language: "en" for English (change if needed)
+# max_records: up to 250
+
+gdelt:
+  - category: "Finance"
+    query: "earnings OR guidance OR revenue OR profit"
+    timespan: "30min"
+    language: "en"
+    max_records: 150
+  - category: "Macro"
+    query: "inflation OR CPI OR unemployment OR recession"
+    timespan: "30min"
+    language: "en"
+    max_records: 150
+  - category: "Politics"
+    query: "election OR vote OR referendum OR impeachment"
+    timespan: "30min"
+    language: "en"
+    max_records: 150
+  - category: "World"
+    query: "war OR ceasefire OR sanctions OR invasion"
+    timespan: "30min"
+    language: "en"
+    max_records: 150
+
+rules:
+  # Politics / elections
+  - name: "Election surprise"
+    categories: ["Politics", "World", "gdelt"]
+    all: ["election"]
+    any: ["wins", "won", "leading", "upset", "surge"]
+    not: ["opinion", "editorial"]
+    synonyms:
+      election: ["vote", "ballot", "polls"]
+    market:
+      question_contains: "election"
+      outcome: "Yes"
+    order:
+      kind: "market"
+      side: "buy"
+      size_usdc: 20
+      max_price: 0.15
+    cooldown_minutes: 180
+
+  # Macro / rates
+  - name: "Rate cut signal"
+    categories: ["Macro", "Finance", "gdelt"]
+    all: ["rate"]
+    any: ["cut", "pivot", "easing"]
+    not: ["opinion", "editorial"]
+    synonyms:
+      rate: ["rates", "interest"]
+    market:
+      question_contains: "rate cut"
+      outcome: "Yes"
+    order:
+      kind: "market"
+      side: "buy"
+      size_usdc: 20
+      max_price: 0.15
+    cooldown_minutes: 180
+
+  # Inflation surprise
+  - name: "Inflation surprise"
+    categories: ["Macro", "Finance", "gdelt"]
+    all: ["inflation"]
+    any: ["surge", "spike", "hot", "cool"]
+    not: ["opinion", "editorial"]
+    market:
+      question_contains: "inflation"
+      outcome: "Yes"
+    order:
+      kind: "market"
+      side: "buy"
+      size_usdc: 20
+      max_price: 0.15
+    cooldown_minutes: 180
+
+  # Earnings beat / miss
+  - name: "Earnings beat"
+    categories: ["Earnings", "Finance", "gdelt"]
+    all: ["earnings"]
+    any: ["beat", "tops", "surge"]
+    not: ["opinion", "editorial"]
+    synonyms:
+      earnings: ["results", "guidance"]
+    market:
+      question_contains: "earnings"
+      outcome: "Yes"
+    order:
+      kind: "market"
+      side: "buy"
+      size_usdc: 20
+      max_price: 0.15
+    cooldown_minutes: 90
+
+  # M&A / acquisition
+  - name: "Merger acquisition"
+    categories: ["Finance", "gdelt"]
+    any: ["acquisition", "merger", "buyout"]
+    not: ["opinion", "editorial"]
+    market:
+      question_contains: "acquired"
+      outcome: "Yes"
+    order:
+      kind: "market"
+      side: "buy"
+      size_usdc: 20
+      max_price: 0.15
+    cooldown_minutes: 180
+
+  # Geopolitical escalation
+  - name: "War escalation"
+    categories: ["World", "gdelt"]
+    any: ["war", "invasion", "missile", "ceasefire"]
+    not: ["opinion", "editorial"]
+    market:
+      question_contains: "ceasefire"
+      outcome: "Yes"
+    order:
+      kind: "market"
+      side: "buy"
+      size_usdc: 20
+      max_price: 0.15
+    cooldown_minutes: 180

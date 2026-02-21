@@ -1,0 +1,74 @@
+# RSS/Atom feeds to poll
+# Option A (recommended): category -> list[url]
+feeds:
+  Trending:
+    - https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
+  Politics:
+    - https://rss.cnn.com/rss/cnn_allpolitics.rss
+  Finance:
+    - https://feeds.a.dj.com/rss/RSSMarketsMain.xml
+
+# Risk controls (applies to live trading)
+risk:
+  bankroll_usdc: 200
+  min_trade_usdc: 10
+  max_trade_usdc: 20
+  default_trade_usdc: 15
+  max_daily_usdc: 100
+  max_trades_per_day: 10
+  max_days_to_resolution: 15
+
+# Optional: GDELT queries (free global news index)
+# timespan: 15min | 30min | 1h | 3h | 6h | 12h | 24h
+# mode: ArtList (default) | TimelineVol | TimelineTone | ...
+# language: 2-letter code (e.g., "en", "zh")
+# max_records: up to 250
+#
+# Example: match finance + earnings news
+#
+# gdelt:
+#   - category: "Finance"
+#     query: "earnings OR guidance OR revenue"
+#     timespan: "30min"
+#     language: "en"
+#     max_records: 100
+
+gdelt:
+  - category: "Finance"
+    query: "earnings OR guidance OR revenue"
+    timespan: "30min"
+    language: "en"
+    max_records: 100
+
+# Matching rules (evaluated top-to-bottom)
+# A rule fires when:
+# - every `all` keyword is present (case-insensitive)
+# - at least one `any` keyword is present (if provided)
+# - none of the `not` keywords are present
+# - optional regex patterns match
+# - optional score threshold is met
+rules:
+  - name: "Example: earnings beat"
+    categories: ["Finance", "Earnings", "gdelt"]
+    all: ["earnings"]
+    any: ["beat", "tops", "surge"]
+    not: ["opinion", "editorial"]
+    patterns: ["\\bEPS\\b"]
+
+    synonyms:
+      earnings: ["results", "guidance"]
+
+    score: ["revenue", "forecast"]
+    min_score: 1
+
+    market:
+      question_contains: "Will"
+      outcome: "Yes"
+
+    order:
+      kind: "market"
+      side: "buy"
+      size_usdc: 20
+      max_price: 0.15
+
+    cooldown_minutes: 180
